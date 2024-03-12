@@ -3,10 +3,14 @@ import Typography from "@mui/material/Typography";
 import { CardContent, Button } from "@mui/material";
 
 function NoteItem(props) {
-  const { id, title, content, createdAt, deleteNote } = props;
+  const { id, title, content, createdAt, deleteNote, editNote } = props;
 
   function removeNote(){
     deleteNote(id)
+  }
+
+  function handleEdit () {
+    editNote(id, title, content)
   }
 
   return (
@@ -21,7 +25,7 @@ function NoteItem(props) {
             was created on {new Date(createdAt).toLocaleString()}
           </Typography>
 
-          <Button variant="contained" size="small" sx={{ mt: 2, mr: 2 }}>
+          <Button variant="contained" size="small" sx={{ mt: 2, mr: 2 }} onClick={handleEdit}>
             Edit
           </Button>
           <Button variant="contained" size="small" sx={{ mt: 2 }} onClick={removeNote}>

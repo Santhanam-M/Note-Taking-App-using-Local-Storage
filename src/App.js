@@ -8,19 +8,41 @@ import { Typography } from "@mui/material";
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [editId, setEditId] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
+
+  function editNote(addId, addTitle, addContent) {
+    setEditId(addId);
+    setEditTitle(addTitle);
+    setEditContent(addContent);
+  }
+
+  function updateNote(newNote) {
+    const changeNote = notes.map((ele) => {
+      if (ele.id == newNote.id) {
+        return { ...ele, ...newNote };
+      } else {
+        return { ...ele };
+      }
+    });
+    setNotes(changeNote)
+    setEditTitle("")
+    setEditContent("")
+  }
 
   //add notes
   const addNote = (noteObj) => {
     setNotes([...notes, noteObj]);
   };
 
-    //deleting notes
-    function deleteNote(id){
-      const result = notes.filter((ele)=>{
-        return ele.id !== id
-      })
-      setNotes(result)
-    } 
+  //deleting notes
+  function deleteNote(id) {
+    const result = notes.filter((ele) => {
+      return ele.id !== id;
+    });
+    setNotes(result);
+  }
 
   //getting data form localstorage
   useEffect(() => {
@@ -47,11 +69,21 @@ function App() {
         </Typography>
         <Grid container spacing={2}>
           <Grid item lg={3}>
-            <NoteForm addNote={addNote} />
+            <NoteForm
+              addNote={addNote}
+              editId={editId}
+              editTitle={editTitle}
+              editContent={editContent}
+              updateNote={updateNote}
+            />
           </Grid>
 
           <Grid item lg={9}>
-            <NoteList notes={notes} deleteNote={deleteNote}/>
+            <NoteList
+              notes={notes}
+              deleteNote={deleteNote}
+              editNote={editNote}
+            />
           </Grid>
         </Grid>
       </Box>
